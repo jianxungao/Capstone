@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Fun Trip</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_header">Countries List...</string>
+
+    <string name="hint_string">Search countries...</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
