@@ -8,4 +8,9 @@
     <string name="hint_string">Search countries...</string>
 
     <string name="action_settings">Settings</string>
+
+    <!--for sync adapter-->
+    <string name="account_type">test.timux.biz.com</string>
+    <string name="content_authority">com.biz.timux.capstone</string>
+    <string name="sync_account_type">test.timux.biz.com</string>
 </resources>
