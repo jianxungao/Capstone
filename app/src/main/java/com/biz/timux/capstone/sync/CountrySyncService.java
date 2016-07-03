@@ -10,18 +10,18 @@ import android.util.Log;
 /**
  * Created by gaojianxun on 16/6/12.
  */
-public class CSyncService extends Service {
+public class CountrySyncService extends Service {
 
 
     private static final Object sSyncAdapterLock = new Object();
-    private static CSyncAdapter sSyncAdapter = null;
+    private static CountrySyncAdapter sSyncAdapter = null;
 
     @Override
     public void onCreate() {
         Log.d("SunshineSyncService", "onCreate - SunshineSyncService");
         synchronized (sSyncAdapterLock) {
             if (sSyncAdapter == null) {
-                sSyncAdapter = new CSyncAdapter(getApplicationContext(), true);
+                sSyncAdapter = new CountrySyncAdapter(getApplicationContext(), true);
             }
         }
     }

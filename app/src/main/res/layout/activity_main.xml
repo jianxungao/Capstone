@@ -26,17 +26,51 @@
         <!--app:menu="@menu/activity_main_drawer"/>-->
 
 
-    <EditText android:id="@+id/inputSearch"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/hint_string"
-              android:inputType="textVisiblePassword"/>
+    <!--<EditText android:id="@+id/inputSearch"-->
+              <!--android:layout_width="fill_parent"-->
+              <!--android:layout_height="wrap_content"-->
+              <!--android:hint="@string/hint_string"-->
+              <!--android:inputType="textVisiblePassword"/>-->
 
-    <ListView
-        android:layout_below="@+id/inputSearch"
-        android:id="@+id/list_view"
+    <!--<ListView-->
+        <!--android:layout_below="@+id/inputSearch"-->
+        <!--android:id="@+id/list_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:choiceMode="singleChoice"/>-->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:background="#fff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:choiceMode="singleChoice"/>
+        android:layout_gravity="start"
+        android:orientation="vertical"
+    >
+        <!--<EditText-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Searching..."/>-->
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_gravity="start"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/item" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

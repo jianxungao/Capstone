@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -46,7 +46,7 @@
 
         <!-- The SyncAdapter service -->
         <service
-            android:name=".sync.CSyncService"
+            android:name=".sync.CountrySyncService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>

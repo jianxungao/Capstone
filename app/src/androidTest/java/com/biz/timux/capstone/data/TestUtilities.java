@@ -65,7 +65,7 @@ public class TestUtilities extends AndroidTestCase {
         countryValues.put(CountryContract.CountryEntry.TEL_AMB, 112);
         countryValues.put(CountryContract.CountryEntry.TEL_FIRE, 112);
         countryValues.put(CountryContract.CountryEntry.WATER, "safe");
-        countryValues.put(CountryContract.CountryEntry.VACCINATION, "");
+        //countryValues.put(CountryContract.CountryEntry.VACCINATION, "");
         countryValues.put(CountryContract.CountryEntry.ADVISE, "Exercise normal safety precautions");
         countryValues.put(CountryContract.CountryEntry.URL, "http://www.smartraveller.gov.au/zw-cgi/view/Advice/Netherlands");
 
@@ -95,6 +95,16 @@ public class TestUtilities extends AndroidTestCase {
         countryValues.put(CountryContract.CountryEntry.US_RAT, 1);
 
         return countryValues;
+    }
+
+    static ContentValues createVaccinationValues(long countryId){
+
+        ContentValues testVal = new ContentValues();
+        testVal.put(CountryContract.VaccinationEntry.COUNTRY_KEY, countryId);
+        testVal.put(CountryContract.VaccinationEntry.NAME, "vacci A");
+        testVal.put(CountryContract.VaccinationEntry.DESC,"this is desc");
+
+        return testVal;
     }
 
     // for provider

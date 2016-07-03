@@ -39,15 +39,14 @@ public class CountryDBHelper extends SQLiteOpenHelper {
 //                CountryEntry.TABLE_NAME + " (" + CountryEntry._ID + "), " +
 //                " );";
 //
-//        final String CREATE_COUNTRY_WEATHER_TABLE = "CREATE TABLE " + CountryWeather.TABLE_NAME + " (" +
-//                CountryWeather._ID + " INTEGER PRIMARY KEY," +
-//                CountryWeather.COUNTRY_KEY + " INTEGER NOT NULL, " +
-//                CountryWeather.MIN + " REAL NOT NULL, " +
-//                CountryWeather.MAX + " REAL NOT NULL, " +
-//                CountryWeather.AVG + " REAL NOT NULL, " +
-//                " FOREIGN KEY (" + CountryWeather.COUNTRY_KEY + ") REFERENCES " +
-//                CountryEntry.TABLE_NAME + " (" + CountryEntry._ID + "), " +
-//                " );";
+        final String CREATE_VACCINATION_TABLE = "CREATE TABLE " + VaccinationEntry.TABLE_NAME + " (" +
+                VaccinationEntry._ID + " INTEGER PRIMARY KEY," +
+                VaccinationEntry.COUNTRY_KEY + " INTEGER NOT NULL, " +
+                VaccinationEntry.NAME + " TEXT, " +
+                VaccinationEntry.DESC + " TEXT, " +
+                " FOREIGN KEY (" + VaccinationEntry.COUNTRY_KEY + ") REFERENCES " +
+                CountryEntry.TABLE_NAME + " (" + CountryEntry._ID + ") " +
+                " );";
 
         final String CREATE_COUNTRY_TABLE = "CREATE TABLE " + CountryEntry.TABLE_NAME + " (" +
 
@@ -68,7 +67,7 @@ public class CountryDBHelper extends SQLiteOpenHelper {
                 CountryEntry.TEL_AMB + " TEXT, " +
                 CountryEntry.TEL_FIRE + " TEXT, " +
                 CountryEntry.WATER + " TEXT, " +
-                CountryEntry.VACCINATION + " TEXT, " +
+                //CountryEntry.VACCINATION + " TEXT, " +
                 CountryEntry.ADVISE + " TEXT, " +
                 CountryEntry.URL + " TEXT, " +
                 CountryEntry.JAN_AVG + " TEXT NOT NULL, " +
@@ -96,14 +95,14 @@ public class CountryDBHelper extends SQLiteOpenHelper {
                 CountryEntry.US_RAT + " TEXT " +
                 " );";
 
-//        sqLiteDatabase.execSQL(CREATE_COUNTRIES_TABLE);
+        sqLiteDatabase.execSQL(CREATE_VACCINATION_TABLE);
         sqLiteDatabase.execSQL(CREATE_COUNTRY_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CountriesEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + VaccinationEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CountryEntry.TABLE_NAME);
         //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CountryCurrency.TABLE_NAME);
         //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CountryWeather.TABLE_NAME);

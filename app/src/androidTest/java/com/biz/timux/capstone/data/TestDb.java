@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import junit.framework.Test;
+
 import java.util.HashSet;
 
 /**
@@ -28,7 +30,7 @@ public class TestDb extends AndroidTestCase {
         final HashSet<String> tableNameHashSet = new HashSet<>();
 
         tableNameHashSet.add(CountryContract.CountryEntry.TABLE_NAME);
-        //tableNameHashSet.add(CountryContract.CountriesEntry.TABLE_NAME);
+        tableNameHashSet.add(CountryContract.VaccinationEntry.TABLE_NAME);
 
         mContext.deleteDatabase(CountryDBHelper.DATABASE_NAME);
         SQLiteDatabase db = new CountryDBHelper(this.mContext).getWritableDatabase();
@@ -69,7 +71,6 @@ public class TestDb extends AndroidTestCase {
         countryColumnHashSet.add(CountryContract.CountryEntry.TEL_AMB);
         countryColumnHashSet.add(CountryContract.CountryEntry.TEL_FIRE);
         countryColumnHashSet.add(CountryContract.CountryEntry.WATER);
-        countryColumnHashSet.add(CountryContract.CountryEntry.VACCINATION);
         countryColumnHashSet.add(CountryContract.CountryEntry.ADVISE);
         countryColumnHashSet.add(CountryContract.CountryEntry.URL);
 
@@ -113,6 +114,47 @@ public class TestDb extends AndroidTestCase {
 
     public void testCountryTable(){
 
+        insertCountry();
+
+    }
+
+    public void testVaccinationTable(){
+
+        long rowId = insertCountry();
+
+        assertFalse("Error: Country Not Inserted Correctly", rowId == -1L);
+
+        CountryDBHelper dbHelper = new CountryDBHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues vacciValue = TestUtilities.createVaccinationValues(rowId);
+
+        long vacciRowId = db.insert(CountryContract.VaccinationEntry.TABLE_NAME, null, vacciValue);
+        assertTrue(vacciRowId != -1);
+
+        Cursor vacciCursor = db.query(
+                CountryContract.VaccinationEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertTrue("Error: No Records return from query", vacciCursor.moveToFirst());
+
+        TestUtilities.validateCurrentRecord("testInsertDb vaccination failed to validate", vacciCursor, vacciValue);
+
+        assertFalse("Error: More than one record", vacciCursor.moveToNext());
+
+        vacciCursor.close();
+        dbHelper.close();
+
+    }
+
+    public long insertCountry(){
+
         CountryDBHelper dbHelper = new CountryDBHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -143,7 +185,7 @@ public class TestDb extends AndroidTestCase {
 
         c.close();
         db.close();
-
+        return rowId;
     }
 }
 

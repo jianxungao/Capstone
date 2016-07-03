@@ -13,4 +13,8 @@
     <string name="account_type">test.timux.biz.com</string>
     <string name="content_authority">com.biz.timux.capstone</string>
     <string name="sync_account_type">test.timux.biz.com</string>
+
+
+
+    <string name="action_search">Search...</string>
 </resources>

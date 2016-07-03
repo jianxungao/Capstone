@@ -26,29 +26,61 @@ public class CountryContract {
 
     // Possible paths (appended to base content URI for possible URI's)
 
-    public static final String PATH_COUNTRIES = "countries";
+    //public static final String PATH_COUNTRIES = "countries";
     public static final String PATH_COUNTRY = "country";
+    public static final String PATH_VACCINATION = "vaccination";
 //    public static final String PATH_COUNTRY_WEATHER = "country_weather";
 //    public static final String PATH_COUNTRY_CURRENCY = "country_currency";
 
 
     /* Inner class that defines the table contents of the location table */
-    public static final class CountriesEntry implements BaseColumns {
+//    public static final class CountriesEntry implements BaseColumns {
+//
+//        public static final Uri CONTENT_URI =
+//                BASE_CONTENT_URI.buildUpon().appendPath(PATH_COUNTRIES).build();
+//
+//        public static final String CONTENT_TYPE =
+//                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COUNTRIES;
+//        public static final String CONTENT_ITEM_TYPE =
+//                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COUNTRIES;
+//
+//        // Table name
+//        public static final String TABLE_NAME = "countries";
+//
+//        // Those countries are available at travelbriefing.org.
+//        public static final String NAME = "name";
+//        public static final String URL = "url";
+//
+//    }
+
+    /* Inner class that defines the table contents of the location table */
+    public static final class VaccinationEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_COUNTRIES).build();
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_VACCINATION).build();
 
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COUNTRIES;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COUNTRIES;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_VACCINATION;
+
 
         // Table name
-        public static final String TABLE_NAME = "countries";
+        public static final String TABLE_NAME = "vaccination";
 
-        // Those countries are available at travelbriefing.org.
         public static final String NAME = "name";
-        public static final String URL = "url";
+        public static final String DESC = "desc";
+        public static final String COUNTRY_KEY = "country_id";
+
+        public static Uri buildVaccinationUri(long id){
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static Uri buildVaccinationCountry(String countryName){
+            return CONTENT_URI.buildUpon().appendPath(countryName).build();
+        }
+
+        public static String getCountryNameFromUri(Uri uri){
+            return uri.getPathSegments().get(1);
+        }
 
     }
 
@@ -81,7 +113,7 @@ public class CountryContract {
         public static final String TEL_AMB = "tel_amb";
         public static final String TEL_FIRE = "tel_fire";
         public static final String WATER = "water";
-        public static final String VACCINATION = "vaccination";
+        //public static final String VACCINATION = "vaccination";
         public static final String ADVISE = "advise";
         public static final String URL = "url";
 

@@ -14,12 +14,24 @@ public class TestCountryContract extends AndroidTestCase{
 
         Uri countryNameUri = CountryContract.CountryEntry.buildCountryNameUri(TEST_COUNTRY_NAME);
 
-        assertNotNull("Error: Null Uri returned. " + countryNameUri);
-        assertEquals("Error: Country name not properly appended",
+        assertNotNull("Error(CountryEntry): Null Uri returned. " + countryNameUri);
+        assertEquals("Error(CountryEntry): Country name not properly appended",
                 TEST_COUNTRY_NAME, countryNameUri.getLastPathSegment());
-        assertEquals("Error: Country name doesn't matach",
+        assertEquals("Error(CountryEntry): Country name doesn't matach",
                 countryNameUri.toString(),
                 "content://com.biz.timux.capstone/country/%2FNetherlands"); //[%2F="/"]
+    }
+
+    public void testBuildVaccinationUri(){
+
+        Uri vaccinationByCountryUri = CountryContract.VaccinationEntry.buildVaccinationCountry(TEST_COUNTRY_NAME);
+
+        assertNotNull("Error(VaccinationEntry): Null Uri returned. " + vaccinationByCountryUri);
+        assertEquals("Error(VaccinationEntry): Country name not properly appended",
+                TEST_COUNTRY_NAME, vaccinationByCountryUri.getLastPathSegment());
+        assertEquals("Error(VaccinationEntry): Country name doesn't matach",
+                vaccinationByCountryUri.toString(),
+                "content://com.biz.timux.capstone/vaccination/%2FNetherlands");
     }
 
 }
