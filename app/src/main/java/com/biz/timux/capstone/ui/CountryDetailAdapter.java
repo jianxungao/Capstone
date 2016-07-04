@@ -69,7 +69,7 @@ public class CountryDetailAdapter extends RecyclerView.Adapter<CountryDetailAdap
     @Override
     public CountryDetailAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.details_country, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.details_country, parent, false);
         view.setFocusable(true);
         return new CountryDetailAdapterViewHolder(view);
     }
@@ -114,7 +114,9 @@ public class CountryDetailAdapter extends RecyclerView.Adapter<CountryDetailAdap
      */
     @Override
     public int getItemCount() {
-        return 0;
+        if (null == mCursor) return 0;
+        return mCursor.getCount();
+
     }
 
     public void swapCursor(Cursor newCursor) {
