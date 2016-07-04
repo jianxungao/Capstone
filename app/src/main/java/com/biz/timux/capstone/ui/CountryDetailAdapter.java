@@ -98,7 +98,7 @@ public class CountryDetailAdapter extends RecyclerView.Adapter<CountryDetailAdap
     public void onBindViewHolder(CountryDetailAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        String countryName = mCursor.getString(MainActivity.CountryFragment.COL_COUNTRY_NAME);
+        String countryName = mCursor.getString(CountryFragment.COL_COUNTRY_NAME);
         //int
 
         holder.mTextView.setText(countryName);
