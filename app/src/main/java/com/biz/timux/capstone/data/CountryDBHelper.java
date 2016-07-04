@@ -54,14 +54,14 @@ public class CountryDBHelper extends SQLiteOpenHelper {
                 CountryEntry.NAME + " TEXT NOT NULL, " +
                 CountryEntry.FULLNAME + " TEXT NOT NULL, " +
                 CountryEntry.ISO2 + " TEXT NOT NULL, " +
-                CountryEntry.CONTINENT + " TEXT NOT NULL, " +
-                CountryEntry.MAPS_LAT + " TEXT NOT NULL, " +
-                CountryEntry.MAPS_LONG + " TEXT NOT NULL, " +
-                CountryEntry.TIMEZONE + " TEXT NOT NULL, " +
-                CountryEntry.LANGUAGE + " TEXT NOT NULL, " +
-                CountryEntry.OFFICIAL + " TEXT NOT NULL, " +
-                CountryEntry.VOLTAGE + " TEXT NOT NULL, " +
-                CountryEntry.FREQUENCY + " TEXT NOT NULL, " +
+                CountryEntry.CONTINENT + " TEXT, " +
+                CountryEntry.MAPS_LAT + " TEXT, " +
+                CountryEntry.MAPS_LONG + " TEXT, " +
+                CountryEntry.TIMEZONE + " TEXT, " +
+                CountryEntry.LANGUAGE + " TEXT, " +
+                CountryEntry.OFFICIAL + " TEXT, " +
+                CountryEntry.VOLTAGE + " TEXT, " +
+                CountryEntry.FREQUENCY + " TEXT, " +
                 CountryEntry.TEL_CODE + " TEXT, " +
                 CountryEntry.TEL_POLICE + " TEXT, " +
                 CountryEntry.TEL_AMB + " TEXT, " +
@@ -70,18 +70,18 @@ public class CountryDBHelper extends SQLiteOpenHelper {
                 //CountryEntry.VACCINATION + " TEXT, " +
                 CountryEntry.ADVISE + " TEXT, " +
                 CountryEntry.URL + " TEXT, " +
-                CountryEntry.JAN_AVG + " TEXT NOT NULL, " +
-                CountryEntry.FEB_AVG + " TEXT NOT NULL, " +
-                CountryEntry.MAR_AVG + " TEXT NOT NULL, " +
-                CountryEntry.APR_AVG + " TEXT NOT NULL, " +
-                CountryEntry.MAY_AVG + " TEXT NOT NULL, " +
-                CountryEntry.JUN_AVG + " TEXT NOT NULL, " +
-                CountryEntry.JUL_AVG + " TEXT NOT NULL, " +
-                CountryEntry.AUG_AVG + " TEXT NOT NULL, " +
-                CountryEntry.SEP_AVG + " TEXT NOT NULL, " +
-                CountryEntry.OCT_AVG + " TEXT NOT NULL, " +
-                CountryEntry.NOV_AVG + " TEXT NOT NULL, " +
-                CountryEntry.DEC_AVG + " TEXT NOT NULL, " +
+                CountryEntry.JAN_AVG + " TEXT, " +
+                CountryEntry.FEB_AVG + " TEXT, " +
+                CountryEntry.MAR_AVG + " TEXT, " +
+                CountryEntry.APR_AVG + " TEXT, " +
+                CountryEntry.MAY_AVG + " TEXT, " +
+                CountryEntry.JUN_AVG + " TEXT, " +
+                CountryEntry.JUL_AVG + " TEXT, " +
+                CountryEntry.AUG_AVG + " TEXT, " +
+                CountryEntry.SEP_AVG + " TEXT, " +
+                CountryEntry.OCT_AVG + " TEXT, " +
+                CountryEntry.NOV_AVG + " TEXT, " +
+                CountryEntry.DEC_AVG + " TEXT, " +
                 CountryEntry.CUR_NAME + " TEXT, " +
                 CountryEntry.CODE + " TEXT, " +
                 CountryEntry.SYMBOL + " TEXT, " +

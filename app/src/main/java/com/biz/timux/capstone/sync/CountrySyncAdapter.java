@@ -3,14 +3,18 @@ package com.biz.timux.capstone.sync;
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.biz.timux.capstone.data.Countries;
+import com.biz.timux.capstone.data.CountryContract;
+import com.biz.timux.capstone.utils.CustomFilter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,8 +65,7 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
         BufferedReader reader = null;
 
         String countryJsonStr = null;
-
-        String format = "json";
+        //String format = "json";
 
         try{
 
@@ -104,7 +107,7 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
                 countryJsonStr = buffer.toString();
                 getCountryDataFromJson(countryJsonStr);
-                Log.d(TAG, countryJsonStr);
+                //Log.d(TAG, countryJsonStr);
             }
 
         } catch (IOException e) {
@@ -235,13 +238,15 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
             String timezoneName = timezone.getString(COUNTRY_TIMEZONE_NAME);
             Log.d(TAG, "Timezone is " + timezoneName);
 
+            String languageName = null;
+            String official = null;
             try {
                 JSONArray language = countryJson.getJSONArray(COUNTRY_LANGUAGE);
 
                 if (language.length() >= 0) {
                     JSONObject lang = language.getJSONObject(0);
-                    String languageName = lang.getString(COUNTRY_LANGUAGE);
-                    String official = lang.getString(COUNTRY_OFFICIAL);
+                    languageName = lang.getString(COUNTRY_LANGUAGE);
+                    official = lang.getString(COUNTRY_OFFICIAL);
                     Log.d(TAG, "Language is " + languageName + " and is official " + official);
                 }
             } catch (JSONException e){
@@ -266,28 +271,10 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
             String shortDesc = water.getString(COUNTRY_WATER_SHORT);
             Log.d(TAG, "water is safe? " + shortDesc);
 
-
-            // vaccination
-            try {
-
-                JSONArray vaccinations = countryJson.getJSONArray(COUNTRY_VACCINATIONS);
-
-                Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(vaccinations.length());
-
-                for (int i = 0; i < vaccinations.length(); i++) {
-
-                    JSONObject v = vaccinations.getJSONObject(i);
-                    String vName = v.getString(COUNTRY_VACCINATIONS_NAME);
-                    String vMsg = v.getString(COUNTRY_VACCINATIONS_MSG);
-                    Log.d(TAG, "Vaccination is " + vName + " and Message is " + vMsg);
-
-                    //add to table vaccination
-                }
-            } catch (JSONException e){
-                Log.d(TAG, "no vaccination");
-                Log.e(TAG, e.getMessage(), e);
-                e.printStackTrace();
-            }
+            JSONObject advises = countryJson.getJSONObject(COUNTRY_ADVICE);
+            String advise = advises.getJSONObject(COUNTRY_ADVICE_UA).getString(COUNTRY_ADVICE);
+            String advise_url = advises.getJSONObject(COUNTRY_ADVICE_UA).getString(COUNTRY_ADVICE_URL);
+            Log.d(TAG, "advice: " + advise + " url " + advise_url);
 
             // currency
             JSONObject currency = countryJson.getJSONObject(COUNTRY_CURRENCY);
@@ -297,6 +284,13 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
             String currencyRate = currency.getString(COUNTRY_CURRENCY_RATE);
             Log.d(TAG,"Currency - " + currencyName + " " + currencyCode + " " + currencySymbol + " " + currencyRate);
 
+            String australianRate = null;
+            String canadianRate = null;
+            String euroRate = null;
+            String hgRate = null;
+            String mexicanRate = null;
+            String newzealandRate = null;
+            String usRate = null;
             try {
                 JSONArray compare = currency.getJSONArray(COUNTRY_CURRENCY_COMPARE);
 
@@ -305,13 +299,6 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
                     JSONObject v = compare.getJSONObject(i);
                     String name = v.getString(COUNTRY_CURRENCY_COMPARE_NAME);
-                    String australianRate;
-                    String canadianRate;
-                    String euroRate;
-                    String hgRate;
-                    String mexicanRate;
-                    String newzealandRate;
-                    String usRate;
 
                     if (name.equals(COUNTRY_CURRENCY_AUSTRALIAN)){
                         australianRate = v.getString(COUNTRY_CURRENCY_RATE);
@@ -370,8 +357,117 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
             String decWeather = weather.getJSONObject(COUNTRY_WEATHER_DEC).getString(COUNTRY_WEATHER_TEMP);
             Log.d(TAG, "weater in December " + decWeather);
 
+            // country table
+            long countryId;
+            Cursor countryCursor = getContext().getContentResolver().query(
+                    CountryContract.CountryEntry.CONTENT_URI,
+                    new String[]{CountryContract.CountryEntry._ID},
+                    CountryContract.CountryEntry.NAME + " =? ",
+                    new String[]{countryName},
+                    null
+            );
 
+            if (countryCursor.moveToFirst()){
+                int countryIdIndex = countryCursor.getColumnIndex(CountryContract.CountryEntry._ID);
+                countryId = countryCursor.getLong(countryIdIndex);
+            } else {
+                ContentValues countryValues = new ContentValues();
 
+                countryValues.put(CountryContract.CountryEntry.NAME, countryName);
+                countryValues.put(CountryContract.CountryEntry.FULLNAME, fullName);
+                countryValues.put(CountryContract.CountryEntry.ISO2, iso2);
+                countryValues.put(CountryContract.CountryEntry.CONTINENT, continent);
+                countryValues.put(CountryContract.CountryEntry.MAPS_LAT, mapLat);
+                countryValues.put(CountryContract.CountryEntry.MAPS_LONG, mapLong);
+                countryValues.put(CountryContract.CountryEntry.TIMEZONE, timezoneName);
+                countryValues.put(CountryContract.CountryEntry.LANGUAGE, languageName);
+                countryValues.put(CountryContract.CountryEntry.OFFICIAL, official);
+                countryValues.put(CountryContract.CountryEntry.VOLTAGE, voltage);
+                countryValues.put(CountryContract.CountryEntry.FREQUENCY, frequency);
+                countryValues.put(CountryContract.CountryEntry.TEL_CODE, calling_code);
+                countryValues.put(CountryContract.CountryEntry.TEL_POLICE, police);
+                countryValues.put(CountryContract.CountryEntry.TEL_AMB, ambulance);
+                countryValues.put(CountryContract.CountryEntry.TEL_FIRE, fire);
+                countryValues.put(CountryContract.CountryEntry.WATER, shortDesc);
+                //countryValues.put(CountryContract.CountryEntry.VACCINATION, "");
+                countryValues.put(CountryContract.CountryEntry.ADVISE, advise);
+                countryValues.put(CountryContract.CountryEntry.URL, advise_url);
+
+                countryValues.put(CountryContract.CountryEntry.JAN_AVG, janWeather);
+                countryValues.put(CountryContract.CountryEntry.FEB_AVG, febWeather);
+                countryValues.put(CountryContract.CountryEntry.MAR_AVG, marWeather);
+                countryValues.put(CountryContract.CountryEntry.APR_AVG, aprWeather);
+                countryValues.put(CountryContract.CountryEntry.MAY_AVG, mayWeather);
+                countryValues.put(CountryContract.CountryEntry.JUN_AVG, junWeather);
+                countryValues.put(CountryContract.CountryEntry.JUL_AVG, julWeather);
+                countryValues.put(CountryContract.CountryEntry.AUG_AVG, augWeather);
+                countryValues.put(CountryContract.CountryEntry.SEP_AVG, sepWeather);
+                countryValues.put(CountryContract.CountryEntry.OCT_AVG, octWeather);
+                countryValues.put(CountryContract.CountryEntry.NOV_AVG, novWeather);
+                countryValues.put(CountryContract.CountryEntry.DEC_AVG, decWeather);
+
+                countryValues.put(CountryContract.CountryEntry.CUR_NAME, currencyName);
+                countryValues.put(CountryContract.CountryEntry.CODE, currencyCode);
+                countryValues.put(CountryContract.CountryEntry.SYMBOL, currencySymbol);
+                countryValues.put(CountryContract.CountryEntry.RATE, currencyRate);
+                countryValues.put(CountryContract.CountryEntry.AUSTRALIAN_RAT, australianRate);
+                countryValues.put(CountryContract.CountryEntry.CANADIAN_RAT, canadianRate);
+                countryValues.put(CountryContract.CountryEntry.EURO_RAT, euroRate);
+                countryValues.put(CountryContract.CountryEntry.HONG_KONG_RAT, hgRate);
+                countryValues.put(CountryContract.CountryEntry.MEXICAN_RAT, mexicanRate);
+                countryValues.put(CountryContract.CountryEntry.NEW_ZEALAND_RAT, newzealandRate);
+                countryValues.put(CountryContract.CountryEntry.US_RAT, usRate);
+
+                Uri insertUri = getContext().getContentResolver().insert(
+                        CountryContract.CountryEntry.CONTENT_URI,
+                        countryValues);
+
+                countryId = ContentUris.parseId(insertUri);
+
+                countryCursor.close();
+            }
+
+            // vaccination table
+            try {
+
+                JSONArray vaccinations = countryJson.getJSONArray(COUNTRY_VACCINATIONS);
+
+                Vector<ContentValues> contentValuesVector = new Vector<ContentValues>(vaccinations.length());
+
+                for (int i = 0; i < vaccinations.length(); i++) {
+
+                    JSONObject v = vaccinations.getJSONObject(i);
+                    String vName = v.getString(COUNTRY_VACCINATIONS_NAME);
+                    String vMsg = v.getString(COUNTRY_VACCINATIONS_MSG);
+                    Log.d(TAG, "Vaccination is " + vName + " and Message is " + vMsg);
+
+                    //add to table vaccination
+                    ContentValues vacciValues = new ContentValues();
+                    vacciValues.put(CountryContract.VaccinationEntry.COUNTRY_KEY, countryId);
+                    vacciValues.put(CountryContract.VaccinationEntry.NAME, vName);
+                    vacciValues.put(CountryContract.VaccinationEntry.DESC,vMsg);
+
+                    contentValuesVector.add(vacciValues);
+                }
+
+                if (contentValuesVector.size()>0){
+                    ContentValues[] cvArray = new ContentValues[contentValuesVector.size()];
+                    contentValuesVector.toArray(cvArray);
+
+                    getContext().getContentResolver().bulkInsert(CountryContract.VaccinationEntry.CONTENT_URI, cvArray);
+
+                }
+
+                Log.d(TAG, "Sync Complete for country. " + countryName + "vaccination " + contentValuesVector.size());
+
+            } catch (JSONException e){
+                Log.d(TAG, "no vaccination");
+                Log.e(TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
+
+            // both tables should be inserted
+            Log.d(TAG, "Sync Complete for country. " + countryName);
 
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage(), e);
@@ -381,4 +477,6 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
 
     }
+
+
 }

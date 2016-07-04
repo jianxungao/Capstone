@@ -45,6 +45,7 @@
         android:layout_height="match_parent" />
 
 
+
     <LinearLayout
         android:background="#fff"
         android:layout_width="wrap_content"
@@ -72,5 +73,17 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
+    <!--<fragment-->
+        <!--android:id="@+id/content_frame"-->
+        <!--android:name="com.biz.timux.capstone.ui.CountryFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/content_frame"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
+
 
 </android.support.v4.widget.DrawerLayout>
