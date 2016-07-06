@@ -2,11 +2,15 @@ package com.biz.timux.capstone.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +34,7 @@ public class CountryFragment extends Fragment implements LoaderManager.LoaderCal
     public static final String ARG_COUNTRY_NAME = "country_name";
 
     private static final int COUNTRY_LOADER = 0;
-
+    private FloatingActionButton mFab;
     private RecyclerView mRecyclerView;
     private CountryDetailAdapter mCountryDetailAdapter;
     private int mPosition = RecyclerView.NO_POSITION;
@@ -158,7 +162,18 @@ public class CountryFragment extends Fragment implements LoaderManager.LoaderCal
         //TextView tv1 = (TextView) rootView.findViewById(R.id.textView1);
         //tv1.setText(Config.setBaseUrl(name).toString());
 
-
+        mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+                        .setType("text/plain")
+                        .setText("Some sample text")
+                        .getIntent(), getString(R.string.action_share)));
+            }
+        });
         getActivity().setTitle(name);
         Log.d(TAG, "Title set!");
         return rootView;
