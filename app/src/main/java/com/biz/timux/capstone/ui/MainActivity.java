@@ -43,12 +43,18 @@ import com.biz.timux.capstone.data.CountryContract;
 import com.biz.timux.capstone.data.CountryModel;
 import com.biz.timux.capstone.remote.Config;
 import com.biz.timux.capstone.sync.CountrySyncAdapter;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity
-        implements
+public class MainActivity extends AppCompatActivity implements
+        //OnMapReadyCallback,
         //NavigationView.OnNavigationItemSelectedListener,
         CountryAdapter.OnItemClickListener {
 
@@ -75,6 +81,9 @@ public class MainActivity extends AppCompatActivity
 
     private NavigationView mNavigationView;
 
+//    private GoogleMap m_map;
+//    private boolean mapReady=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +94,11 @@ public class MainActivity extends AppCompatActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+//        if(mapReady)
+//            m_map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+//        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -131,22 +144,23 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "before sync!");
         CountrySyncAdapter.initializeSyncAdapter(this);
 
-        Button refresh = (Button) findViewById(R.id.refresh);
+//        Button refresh = (Button) findViewById(R.id.refresh);
+//        refresh.setOnClickListener(
+//                new View.OnClickListener(){
+//                    @Override
+//                    public void onClick(View v){
+//                        Bundle bundle = new Bundle();
+//                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+//                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+//
+//                        ContentResolver.requestSync(CountrySyncAdapter.getSyncAccount(getApplicationContext()),
+//                                getString(R.string.content_authority), bundle);
+//                        Log.d(TAG, "Refresh click!");
+//                    }
+//                }
+//        );
 
-        refresh.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-                        Bundle bundle = new Bundle();
-                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
 
-                        ContentResolver.requestSync(CountrySyncAdapter.getSyncAccount(getApplicationContext()),
-                                getString(R.string.content_authority), bundle);
-                        Log.d(TAG, "Refresh click!");
-                    }
-                }
-        );
 
     }
 
@@ -280,7 +294,19 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//
+//        mapReady=true;
+//        m_map = googleMap;
+//        LatLng place = setLatLng(40.7484,-73.9857);
+//        CameraPosition target = CameraPosition.builder().target(place).zoom(4).build();
+//        m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
+//
+//    }
+//
+//    public LatLng setLatLng (double lat, double lng){
+//
+//        return new LatLng(lat, lng);
+//    }
 }

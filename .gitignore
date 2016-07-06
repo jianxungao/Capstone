@@ -34,4 +34,4 @@ captures/
 .idea
 
 # Android Manifest.xml
-app/src/main/AndroidManifest.xml
+# app/src/main/AndroidManifest.xml
