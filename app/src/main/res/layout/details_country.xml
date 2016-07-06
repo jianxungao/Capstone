@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card01"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:foreground="?selectableItemBackground">
+        android:layout_marginBottom="@dimen/card_vertical_margin"
+        android:layout_marginLeft="@dimen/card_horizontal_margin"
+        android:layout_marginRight="@dimen/card_horizontal_margin"
+        android:layout_marginTop="@dimen/fragment_vertical_margin"
+        card_view:cardBackgroundColor="@color/card_backgroud_init"
+        card_view:cardCornerRadius="@dimen/cardview_default_radius"
+        android:elevation="@dimen/cardview_default_elevation">
+        <!--android:layout_marginTop="?attr/actionBarSize"-->
+        <!--android:foreground="?selectableItemBackground"-->
         <TextView
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
@@ -26,18 +31,19 @@
     <android.support.v7.widget.CardView
         android:id="@+id/card02"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/card01"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:foreground="?selectableItemBackground">
+        android:layout_marginBottom="@dimen/card_vertical_margin"
+        android:layout_marginLeft="@dimen/card_horizontal_margin"
+        android:layout_marginRight="@dimen/card_horizontal_margin"
+        android:layout_marginTop="@dimen/card_vertical_margin"
+        card_view:cardBackgroundColor="@color/card_backgroud_01"
+        card_view:cardCornerRadius="@dimen/cardview_default_radius"
+        android:elevation="@dimen/cardview_default_elevation">
         <LinearLayout android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
@@ -54,5 +60,6 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
 
 </RelativeLayout>

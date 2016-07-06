@@ -11,11 +11,12 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.TextView;
+import android.database.DatabaseUtils;
 
 import com.biz.timux.capstone.R;
 import com.biz.timux.capstone.data.CountryContract;
@@ -24,7 +25,11 @@ import com.biz.timux.capstone.data.CountryContract;
  * Created by gaojianxun on 16/7/4.
  */
 public class CountryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    public static final String TAG = CountryFragment.class.getSimpleName();
     public static final String ARG_COUNTRY_NAME = "country_name";
+
+    private static final int COUNTRY_LOADER = 0;
 
     private RecyclerView mRecyclerView;
     private CountryDetailAdapter mCountryDetailAdapter;
@@ -34,29 +39,65 @@ public class CountryFragment extends Fragment implements LoaderManager.LoaderCal
             CountryContract.CountryEntry.TABLE_NAME + "." + CountryContract.CountryEntry._ID,
             CountryContract.CountryEntry.NAME,
             CountryContract.CountryEntry.FULLNAME,
-            CountryContract.VaccinationEntry.COUNTRY_KEY,
-            CountryContract.VaccinationEntry.NAME
+            //CountryContract.VaccinationEntry.COUNTRY_KEY,
+            //CountryContract.VaccinationEntry.NAME
     };
 
     static final int COL_COUNTRY_ID = 0;
     static final int COL_COUNTRY_NAME = 1;
+    static final int COL_COUNTRY_FNAME = 2;
+    static final int COL_COUNTRY_VNAME = 3;
 
     public CountryFragment() {
         // Empty constructor required for fragment subclasses
     }
 
-    /**
-     * Instantiate and return a new Loader for the given ID.
-     *
-     * @param id   The ID whose loader is to be created.
-     * @param args Any arguments supplied by the caller.
-     * @return Return a new Loader instance that is ready to start loading.
-     */
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        getLoaderManager().initLoader(COUNTRY_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         String countryName = getArguments().getString(ARG_COUNTRY_NAME);
+        Log.d(TAG,"onCreateLoader - countryName is " + countryName);
         Uri countryInfoUri = CountryContract.CountryEntry.buildCountryNameUri(countryName);
+        Log.d(TAG, "onCreateLoader - Uri is " + countryInfoUri);
+
+        Cursor cursor = getActivity().getContentResolver().query(
+                countryInfoUri,
+                COUNTRY_COLUMNS,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            do {
+                StringBuilder sb = new StringBuilder();
+                int columnsQty = cursor.getColumnCount();
+                for (int idx = 0; idx < columnsQty; ++idx) {
+                    sb.append(cursor.getString(idx));
+                    if (idx < columnsQty - 1)
+                        sb.append("; ");
+                }
+                Log.v(TAG, String.format("Row: %d, Values: %s", cursor.getPosition(), sb.toString()));
+            } while (cursor.moveToNext()) ;
+        }
+
+        //String col01 = cursor.getString(COL_COUNTRY_ID);
+        //String col02 = cursor.getString(COL_COUNTRY_NAME);
+        //String col03 = cursor.getString(COL_COUNTRY_FNAME);
+        //String col04 = cursor.getString(COL_COUNTRY_VNAME);
+        StringBuilder sb = new StringBuilder();
+        Log.d(TAG, "Cursor contains " + cursor.getColumnCount());
+        //Log.d(TAG, col01 + " " + col02 + " " + col03 + " " + col04);
+        Log.d(TAG, "Cursor - " + cursor);
+        cursor.close();
 
         return new CursorLoader(
                 getActivity(),
@@ -68,45 +109,6 @@ public class CountryFragment extends Fragment implements LoaderManager.LoaderCal
         );
     }
 
-    /**
-     * Called when a previously created loader has finished its load.  Note
-     * that normally an application is <em>not</em> allowed to commit fragment
-     * transactions while in this call, since it can happen after an
-     * activity's state is saved.  See {@link FragmentManager#beginTransaction()
-     * FragmentManager.openTransaction()} for further discussion on this.
-     * <p/>
-     * <p>This function is guaranteed to be called prior to the release of
-     * the last data that was supplied for this Loader.  At this point
-     * you should remove all use of the old data (since it will be released
-     * soon), but should not do your own release of the data since its Loader
-     * owns it and will take care of that.  The Loader will take care of
-     * management of its data so you don't have to.  In particular:
-     * <p/>
-     * <ul>
-     * <li> <p>The Loader will monitor for changes to the data, and report
-     * them to you through new calls here.  You should not monitor the
-     * data yourself.  For example, if the data is a {@link Cursor}
-     * and you place it in a {@link CursorAdapter}, use
-     * the {@link CursorAdapter#CursorAdapter(Context,
-     * Cursor, int)} constructor <em>without</em> passing
-     * in either {@link CursorAdapter#FLAG_AUTO_REQUERY}
-     * or {@link CursorAdapter#FLAG_REGISTER_CONTENT_OBSERVER}
-     * (that is, use 0 for the flags argument).  This prevents the CursorAdapter
-     * from doing its own observing of the Cursor, which is not needed since
-     * when a change happens you will get a new Cursor throw another call
-     * here.
-     * <li> The Loader will release the data once it knows the application
-     * is no longer using it.  For example, if the data is
-     * a {@link Cursor} from a {@link CursorLoader},
-     * you should not call close() on it yourself.  If the Cursor is being placed in a
-     * {@link CursorAdapter}, you should use the
-     * {@link CursorAdapter#swapCursor(Cursor)}
-     * method so that the old Cursor is not closed.
-     * </ul>
-     *
-     * @param loader The Loader that has finished.
-     * @param data   The data generated by the Loader.
-     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
@@ -117,13 +119,7 @@ public class CountryFragment extends Fragment implements LoaderManager.LoaderCal
 
     }
 
-    /**
-     * Called when a previously created loader is being reset, and thus
-     * making its data unavailable.  The application should at this point
-     * remove any references it has to the Loader's data.
-     *
-     * @param loader The Loader that is being reset.
-     */
+
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mCountryDetailAdapter.swapCursor(null);
@@ -137,6 +133,7 @@ public class CountryFragment extends Fragment implements LoaderManager.LoaderCal
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -163,6 +160,7 @@ public class CountryFragment extends Fragment implements LoaderManager.LoaderCal
 
 
         getActivity().setTitle(name);
+        Log.d(TAG, "Title set!");
         return rootView;
     }
 }

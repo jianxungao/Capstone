@@ -3,6 +3,7 @@ package com.biz.timux.capstone.ui;
 import android.app.ActionBar;
 
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContentResolverCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.view.MenuItemCompat;
@@ -30,6 +32,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
@@ -132,8 +135,25 @@ public class MainActivity extends AppCompatActivity
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.content_frame, countryFragment, FRAGMENT_TAG)
 //                .commit();
-
+        Log.d(TAG, "before sync!");
         CountrySyncAdapter.initializeSyncAdapter(this);
+
+        Button refresh = (Button) findViewById(R.id.refresh);
+
+        refresh.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+
+                        ContentResolver.requestSync(CountrySyncAdapter.getSyncAccount(getApplicationContext()),
+                                getString(R.string.content_authority), bundle);
+                        Log.d(TAG, "Refresh click!");
+                    }
+                }
+        );
 
     }
 
