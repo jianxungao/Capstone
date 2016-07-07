@@ -54,7 +54,6 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements
-        //OnMapReadyCallback,
         //NavigationView.OnNavigationItemSelectedListener,
         CountryAdapter.OnItemClickListener {
 
@@ -81,8 +80,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private NavigationView mNavigationView;
 
-//    private GoogleMap m_map;
-//    private boolean mapReady=false;
+
 
 
     @Override
@@ -94,11 +92,6 @@ public class MainActivity extends AppCompatActivity implements
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-//        if(mapReady)
-//            m_map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-//        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -294,19 +287,4 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//
-//        mapReady=true;
-//        m_map = googleMap;
-//        LatLng place = setLatLng(40.7484,-73.9857);
-//        CameraPosition target = CameraPosition.builder().target(place).zoom(4).build();
-//        m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
-//
-//    }
-//
-//    public LatLng setLatLng (double lat, double lng){
-//
-//        return new LatLng(lat, lng);
-//    }
 }

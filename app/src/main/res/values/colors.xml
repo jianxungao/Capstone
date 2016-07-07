@@ -10,4 +10,9 @@
     <color name="card_backgroud_04">#66BB6A</color>
     <color name="card_backgroud_05">#9CCC65</color>
     <color name="card_backgroud_06">#D4E157</color>
+
+
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="text_bg">#EFEBE9</color>
 </resources>

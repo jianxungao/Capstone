@@ -19,4 +19,39 @@
     <string name="action_search">Search...</string>
 
     <string name="action_share">Sharing your interested</string>
+
+    <string name="basic_facts">Basic Facts</string>
+    <string name="full_name">Full Name</string>
+    <string name="weather">Weather</string>
+    <string name="health">Health Information</string>
+    <string name="currency_rates">Currency Exchange</string>
+    <string name="iso2">ISO2</string>
+    <string name="continent">Continent</string>
+    <string name="timezone">Time Zone</string>
+    <string name="language">Language</string>
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+    <string name="travel_tips">Travel Tips</string>
+    <string name="voltage">Voltage</string>
+    <string name="frequency">Frequency</string>
+    <string name="advise">Advise</string>
+    <string name="url">URL</string>
+    <string name="currency_exchange_rate">Currency Rates</string>
+    <string name="australian">Australian</string>
+    <string name="canadian">Canadian</string>
+    <string name="euro">EURO</string>
+    <string name="hongkong">Hong Kong</string>
+    <string name="mexican">Mexican</string>
+    <string name="newzealend">New Zealand</string>
+    <string name="us">US</string>
 </resources>
