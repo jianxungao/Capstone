@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.biz.timux.capstone.R;
+import com.biz.timux.capstone.utils.Utility;
 
 /**
  * Created by gaojianxun on 16/7/3.
@@ -129,18 +130,18 @@ public class CountryDetailAdapter extends RecyclerView.Adapter<CountryDetailAdap
         String timezone = mCursor.getString(CountryFragment.COL_COUNTRY_TIMEZONE);
         String lanugage = mCursor.getString(CountryFragment.COL_COUNTRY_LANGUAGE);
 
-        String jan = mCursor.getString(CountryFragment.COL_COUNTRY_JAN);
-        String feb = mCursor.getString(CountryFragment.COL_COUNTRY_FEB);
-        String mar = mCursor.getString(CountryFragment.COL_COUNTRY_MAR);
-        String apr = mCursor.getString(CountryFragment.COL_COUNTRY_APR);
-        String may = mCursor.getString(CountryFragment.COL_COUNTRY_MAY);
-        String jun = mCursor.getString(CountryFragment.COL_COUNTRY_JUN);
-        String jul = mCursor.getString(CountryFragment.COL_COUNTRY_JUL);
-        String aug = mCursor.getString(CountryFragment.COL_COUNTRY_AUG);
-        String sep = mCursor.getString(CountryFragment.COL_COUNTRY_SEP);
-        String oct = mCursor.getString(CountryFragment.COL_COUNTRY_OCT);
-        String nov = mCursor.getString(CountryFragment.COL_COUNTRY_NOV);
-        String dec = mCursor.getString(CountryFragment.COL_COUNTRY_DEC);
+        double jan = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_JAN));
+        double feb = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_FEB));
+        double mar = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_MAR));
+        double apr = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_APR));
+        double may = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_MAY));
+        double jun = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_JUN));
+        double jul = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_JUL));
+        double aug = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_AUG));
+        double sep = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_SEP));
+        double oct = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_OCT));
+        double nov = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_NOV));
+        double dec = Double.parseDouble(mCursor.getString(CountryFragment.COL_COUNTRY_DEC));
 
         String voltage = mCursor.getString(CountryFragment.COL_COUNTRY_VOLTAGE);
         String url = mCursor.getString(CountryFragment.COL_COUNTRY_URL);
@@ -170,18 +171,18 @@ public class CountryDetailAdapter extends RecyclerView.Adapter<CountryDetailAdap
         holder.mTextViewTimezone.setText(timezone);
         holder.mTextViewLanguage.setText(lanugage);
 
-        holder.mJan.setText(jan);
-        holder.mFeb.setText(feb);
-        holder.mMar.setText(mar);
-        holder.mApr.setText(apr);
-        holder.mMay.setText(may);
-        holder.mJun.setText(jun);
-        holder.mJul.setText(jul);
-        holder.mAug.setText(aug);
-        holder.mSep.setText(sep);
-        holder.mOct.setText(oct);
-        holder.mNov.setText(nov);
-        holder.mDec.setText(dec);
+        holder.mJan.setText(Utility.formatTemperature(mContext,jan));
+        holder.mFeb.setText(Utility.formatTemperature(mContext,feb));
+        holder.mMar.setText(Utility.formatTemperature(mContext,mar));
+        holder.mApr.setText(Utility.formatTemperature(mContext,apr));
+        holder.mMay.setText(Utility.formatTemperature(mContext,may));
+        holder.mJun.setText(Utility.formatTemperature(mContext,jun));
+        holder.mJul.setText(Utility.formatTemperature(mContext,jul));
+        holder.mAug.setText(Utility.formatTemperature(mContext,aug));
+        holder.mSep.setText(Utility.formatTemperature(mContext,sep));
+        holder.mOct.setText(Utility.formatTemperature(mContext,oct));
+        holder.mNov.setText(Utility.formatTemperature(mContext,nov));
+        holder.mDec.setText(Utility.formatTemperature(mContext,dec));
 
         holder.mFrequency.setText(frequency);
         holder.mVoltage.setText(voltage);

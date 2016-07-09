@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="app_name">Fun Trip</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -54,4 +54,12 @@
     <string name="mexican">Mexican</string>
     <string name="newzealend">New Zealand</string>
     <string name="us">US</string>
+
+    <string name="format_temperature"><xliff:g id="temp">%.2f</xliff:g>\u00B0 C</string>
+    <string name="empty_country_list">No country info available</string>
+    <string name="pref_country_label">Country Name</string>
+    <string name="pref_country_key">countryName</string>
+    <string name="pref_country_default">France</string>
+    <string name="title_activity_settings">Add Favourite Country</string>
+
 </resources>

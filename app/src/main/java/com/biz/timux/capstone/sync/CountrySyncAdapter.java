@@ -8,6 +8,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
@@ -39,6 +40,7 @@ import java.util.Vector;
 public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
 
+    public static final String ACTION_DATA_UPDATED = "com.biz.timux.capstone.ACTION_DATA_UPDATED";
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 600 = 10 hours
     public static final int SYNC_INTERVAL = 60 * 600;
@@ -501,7 +503,7 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
             // both tables should be inserted
             Log.d(TAG, "Sync Complete for country. " + countryName);
-
+            updateWidgets();
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage(), e);
             e.printStackTrace();
@@ -587,5 +589,11 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
                 context.getString(R.string.content_authority), bundle);
     }
 
+    private void updateWidgets(){
+
+        Context context = getContext();
+        Intent intent = new Intent(ACTION_DATA_UPDATED).setPackage(context.getPackageName());
+        context.sendBroadcast(intent);
+    }
 
 }
