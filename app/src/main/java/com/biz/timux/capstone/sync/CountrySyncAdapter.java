@@ -46,6 +46,12 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
     public static final int SYNC_INTERVAL = 60 * 600;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
+    public static final int COUNTRY_STATUS_OK = 0;
+    public static final int COUNTRY_STATUS_SERVER_DOWN = 1;
+    public static final int COUNTRY_STATUS_SERVER_INVALID = 2;
+    public static final int COUNTRY_STATUS_UNKNOWN = 3;
+    public static final int COUNTRY_STATUS_INVALID = 4;
+
     private static final String TAG = CountrySyncAdapter.class.getSimpleName();
 
     public CountrySyncAdapter(Context context, boolean autoInitialize){

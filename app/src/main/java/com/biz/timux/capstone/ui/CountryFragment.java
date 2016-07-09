@@ -252,8 +252,8 @@ public class CountryFragment extends Fragment implements
 
         mRecyclerView.setAdapter(mCountryDetailAdapter);
 
-        mScrollView = (ObservableScrollView) rootView.findViewById(R.id.scroll_view);
-        if (null != mScrollView) {
+//        mScrollView = (ObservableScrollView) rootView.findViewById(R.id.scroll_view);
+//        if (null != mScrollView) {
 //            mScrollView.setCallbacks(new ObservableScrollView.Callbacks() {
 //                @Override
 //                public void onScrollChanged() {
@@ -263,16 +263,16 @@ public class CountryFragment extends Fragment implements
 //                    updateStatusBar();
 //                }
 //            });
-            mScrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    v.getParent().requestDisallowInterceptTouchEvent(false);
-                    return true;
-                }
-            });
-        } else {
-            Log.d(TAG, " Scroll View is null");
-        }
+//            mScrollView.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    v.getParent().requestDisallowInterceptTouchEvent(false);
+//                    return true;
+//                }
+//            });
+//        } else {
+//            Log.d(TAG, " Scroll View is null");
+//        }
 
 
         if(mapReady)

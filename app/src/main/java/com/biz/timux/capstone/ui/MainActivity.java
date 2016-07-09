@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-        // RecycleView Imp
+        // RecycleView in Drawer
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -138,21 +138,21 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "before sync!");
         CountrySyncAdapter.initializeSyncAdapter(this);
 
-//        Button refresh = (Button) findViewById(R.id.refresh);
-//        refresh.setOnClickListener(
-//                new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v){
-//                        Bundle bundle = new Bundle();
-//                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-//                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-//
-//                        ContentResolver.requestSync(CountrySyncAdapter.getSyncAccount(getApplicationContext()),
-//                                getString(R.string.content_authority), bundle);
-//                        Log.d(TAG, "Refresh click!");
-//                    }
-//                }
-//        );
+        Button refresh = (Button) findViewById(R.id.refresh);
+        refresh.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+
+                        ContentResolver.requestSync(CountrySyncAdapter.getSyncAccount(getApplicationContext()),
+                                getString(R.string.content_authority), bundle);
+                        Log.d(TAG, "Refresh click!");
+                    }
+                }
+        );
 
 
 
@@ -182,20 +182,22 @@ public class MainActivity extends AppCompatActivity implements
         mMenuItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(mMenuItem);
         //mSearchView.setOnQueryTextListener(this);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                updateDrawer();
-                return false;
-            }
+        if (null != mSearchView) {
+            mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    updateDrawer();
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String query) {
-                mAdapter.getFilter().filter(query);
-                Log.d(TAG, "onQueryTextChange!");
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String query) {
+                    mAdapter.getFilter().filter(query);
+                    Log.d(TAG, "onQueryTextChange!");
+                    return false;
+                }
+            });
+        }
         updateDrawer();
         return true;
     }

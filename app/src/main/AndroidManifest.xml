@@ -78,7 +78,7 @@
             android:exported="false"
             android:syncable="true"/>
         
-        <!--The CountryWidgetProvider-->
+        <!--The Widget-->
         <receiver 
             android:name=".widget.CountryWidgetProvider"
             android:label="@string/app_name">
@@ -86,11 +86,12 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.biz.timux.capstone.ACTION_DATA_UPDATED"/>
             </intent-filter>
-            <meta-data android:name="android.appwidget.AppWidgetProvider"
-                       android:resource="@layout/widget_details"/>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/widget"/>
         </receiver>
         <service
             android:name=".widget.CountryWidgetRemoteService"
+            android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
         
