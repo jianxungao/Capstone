@@ -90,8 +90,9 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
             final String BASE_URL = "https://travelbriefing.org/";
             final String SUFFIX = "?format=json";
-
-            for (String country : Countries.COUNTRIES) {
+            //test
+            String country = "france";
+            //for (String country : Countries.COUNTRIES) {
                 System.out.println(country);
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendPath(country)
@@ -127,7 +128,7 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
                 countryJsonStr = buffer.toString();
                 getCountryDataFromJson(countryJsonStr);
                 //Log.d(TAG, countryJsonStr);
-            }
+            //}
 
         } catch (IOException e) {
             Log.e(TAG, "Error ", e);
@@ -374,29 +375,29 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
             // weather
             JSONObject weather = countryJson.getJSONObject(COUNTRY_WEATHER);
             String janWeather = weather.getJSONObject(COUNTRY_WEATHER_JAN).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in January " + janWeather);
+            Log.d(TAG, "weather in January " + janWeather);
             String febWeather = weather.getJSONObject(COUNTRY_WEATHER_FEB).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in February " + febWeather);
+            Log.d(TAG, "weather in February " + febWeather);
             String marWeather = weather.getJSONObject(COUNTRY_WEATHER_MAR).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in March " + marWeather);
+            Log.d(TAG, "weather in March " + marWeather);
             String aprWeather = weather.getJSONObject(COUNTRY_WEATHER_APR).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in April " + aprWeather);
+            Log.d(TAG, "weather in April " + aprWeather);
             String mayWeather = weather.getJSONObject(COUNTRY_WEATHER_MAY).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in May " + mayWeather);
+            Log.d(TAG, "weather in May " + mayWeather);
             String junWeather = weather.getJSONObject(COUNTRY_WEATHER_JUN).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in June " + junWeather);
+            Log.d(TAG, "weather in June " + junWeather);
             String julWeather = weather.getJSONObject(COUNTRY_WEATHER_JUL).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in July " + julWeather);
+            Log.d(TAG, "weather in July " + julWeather);
             String augWeather = weather.getJSONObject(COUNTRY_WEATHER_AUG).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in August " + augWeather);
+            Log.d(TAG, "weather in August " + augWeather);
             String sepWeather = weather.getJSONObject(COUNTRY_WEATHER_SEP).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in September " + sepWeather);
+            Log.d(TAG, "weather in September " + sepWeather);
             String octWeather = weather.getJSONObject(COUNTRY_WEATHER_OCT).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in October " + octWeather);
+            Log.d(TAG, "weather in October " + octWeather);
             String novWeather = weather.getJSONObject(COUNTRY_WEATHER_NOV).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in November " + novWeather);
+            Log.d(TAG, "weather in November " + novWeather);
             String decWeather = weather.getJSONObject(COUNTRY_WEATHER_DEC).getString(COUNTRY_WEATHER_TEMP);
-            Log.d(TAG, "weater in December " + decWeather);
+            Log.d(TAG, "weather in December " + decWeather);
 
             // country table
             long countryId;

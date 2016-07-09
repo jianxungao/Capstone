@@ -35,7 +35,8 @@
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/item" />
+             />
+        <!--app:menu="@menu/item"-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

@@ -11,23 +11,24 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/widget_list_item"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight"
 
         >
+        <!--android:minHeight="?android:attr/listPreferredItemHeight"-->
         <!--android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"-->
         <!--android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"-->
 
         <!--section title-->
         <TextView
             android:id="@+id/widget_country_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:gravity="center"
             android:textSize="@dimen/widget_text_size"
+            android:layout_gravity="center"
             android:text="@string/basic_facts"
 
         />
@@ -36,27 +37,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:gravity="center"
             android:textSize="@dimen/widget_text_size"
-
+            android:text="Full Name"
         />
         <TextView
             android:id="@+id/widget_iso2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:gravity="center"
             android:textSize="@dimen/widget_text_size"
-
-
+            android:text="ISO2"
         />
 
         <TextView
             android:id="@+id/widget_continent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-
+            android:fontFamily="sans-serif"
+            android:textSize="@dimen/widget_text_size"
+            android:text="Continent"
         />
     </LinearLayout>
 

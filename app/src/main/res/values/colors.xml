@@ -3,13 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="card_backgroud_init">#5C6BC0</color>
-    <color name="card_backgroud_01">#42A5F5</color>
-    <color name="card_backgroud_02">#26C6DA</color>
-    <color name="card_backgroud_03">#26A69A</color>
-    <color name="card_backgroud_04">#66BB6A</color>
-    <color name="card_backgroud_05">#9CCC65</color>
-    <color name="card_backgroud_06">#D4E157</color>
+    <color name="card_background_init">#5C6BC0</color>
+    <color name="card_background_01">#42A5F5</color>
+    <color name="card_background_02">#26C6DA</color>
+    <color name="card_background_03">#26A69A</color>
+    <color name="card_background_04">#66BB6A</color>
+    <color name="card_background_05">#9CCC65</color>
+    <color name="card_background_06">#D4E157</color>
 
 
     <color name="primary_text">#212121</color>

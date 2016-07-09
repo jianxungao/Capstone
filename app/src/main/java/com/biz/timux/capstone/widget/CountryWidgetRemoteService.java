@@ -1,9 +1,13 @@
 package com.biz.timux.capstone.widget;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
@@ -28,6 +32,7 @@ public class CountryWidgetRemoteService extends RemoteViewsService{
             CountryContract.CountryEntry.CONTINENT
     };
 
+    static final int COL_COUNTRY_ID = 0;
     static final int COL_COUNTRY_FNAME = 2;
     static final int COL_COUNTRY_ISO2 = 3;
     static final int COL_COUNTRY_CONTINENT = 4;
@@ -36,7 +41,7 @@ public class CountryWidgetRemoteService extends RemoteViewsService{
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new RemoteViewsFactory() {
             private Cursor data = null;
-            private String[] widgetData = new String[1];
+
             String countryName;
             @Override
             public void onCreate() {
@@ -48,6 +53,7 @@ public class CountryWidgetRemoteService extends RemoteViewsService{
                 if (null != data) {
                     data.close();
                 }
+
                 final long identityToken = Binder.clearCallingIdentity();
                 countryName = Utility.getFavoriteCountry(CountryWidgetRemoteService.this);
                 Log.d(TAG, "get favorite country is " + countryName);
@@ -82,7 +88,7 @@ public class CountryWidgetRemoteService extends RemoteViewsService{
                         data == null || !data.moveToPosition(position)) {
                     return null;
                 }
-
+                Log.d(TAG, " Position is " + position);
                 RemoteViews views = new RemoteViews(getPackageName(),
                         R.layout.widget_list_item);
 
@@ -94,28 +100,39 @@ public class CountryWidgetRemoteService extends RemoteViewsService{
                 views.setTextViewText(R.id.widget_continent, data.getString(COL_COUNTRY_CONTINENT));
                 Log.d(TAG, " set text widget country continent " + data.getString(COL_COUNTRY_CONTINENT));
 
+                final Intent fillInIntent = new Intent();
+                Uri countryUir = CountryContract.CountryEntry.buildCountryNameUri(countryName);
+                fillInIntent.setData(countryUir);
+                views.setOnClickFillInIntent(R.id.widget_list_item, fillInIntent);
+                Log.d(TAG, " set data to Intent! ");
+
                 return views;
             }
 
             @Override
             public RemoteViews getLoadingView() {
-                return null;
+                Log.d(TAG, "getLoadingView");
+                return new RemoteViews(getPackageName(), R.layout.widget_list_item);
             }
 
             @Override
             public int getViewTypeCount() {
-                return 0;
+                return 1;
             }
 
             @Override
             public long getItemId(int position) {
-                return 0;
+                if (data.moveToPosition(position))
+                    return data.getLong(COL_COUNTRY_ID);
+                return position;
             }
 
             @Override
             public boolean hasStableIds() {
-                return false;
+                return true;
             }
         };
     }
+
+
 }
