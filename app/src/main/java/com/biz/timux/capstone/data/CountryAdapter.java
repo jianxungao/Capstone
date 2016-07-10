@@ -2,6 +2,7 @@ package com.biz.timux.capstone.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryV
     private final LayoutInflater mInflater;
     public ArrayList<CountryModel> mModels;
     private OnItemClickListener mListener;
-
     private CustomFilter mFilter;
 
 
@@ -75,8 +75,11 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryV
     public void onBindViewHolder(CountryViewHolder holder, int position) {
         //int defaultImage = R.drawable.ad;
         final CountryModel model = mModels.get(position);
-        holder.tvText.setText(model.getCountryName());
-
+        if (null != holder.mTextViewCountryName) {
+            holder.mTextViewCountryName.setText(model.getCountryName());
+        } else {
+            Log.d(TAG, "inflating text view got problem");
+        }
         //holder.countryFlagIcon.setImageResource(R.drawable.afghanistan);
 //        Glide.with(mContext)
 //                .load("http://www.geognos.com/api/en/countries/flag/HM.png")
@@ -144,12 +147,12 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryV
 
     public class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final TextView tvText;
+        private final TextView mTextViewCountryName;
         private ImageView countryFlagIcon;
 
         public CountryViewHolder(View itemView) {
             super(itemView);
-            tvText = (TextView) itemView.findViewById(R.id.txtName);
+            mTextViewCountryName = (TextView) itemView.findViewById(R.id.txtName);
             countryFlagIcon = (ImageView) itemView.findViewById(R.id.countryFlagIcon);
             itemView.setOnClickListener(this);
         }
@@ -161,7 +164,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryV
          */
         @Override
         public void onClick(View v) {
-            mListener.onClick(v, tvText.getText().toString());
+            mListener.onClick(v, mTextViewCountryName.getText().toString());
         }
 
 //        public void bind(final CountryModel model) {

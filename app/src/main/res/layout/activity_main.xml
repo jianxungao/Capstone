@@ -38,6 +38,7 @@
              />
         <!--app:menu="@menu/item"-->
 
+        <!--This RecyclerView for populate country list at the drawer-->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:scrollbars="vertical"

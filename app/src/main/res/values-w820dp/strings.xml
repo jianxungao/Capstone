@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="empty_country_list">No country info available</string>
+    <!--<string name="empty_country_list">No country info available</string>-->
 </resources>

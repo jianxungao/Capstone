@@ -138,21 +138,21 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "before sync!");
         CountrySyncAdapter.initializeSyncAdapter(this);
 
-        Button refresh = (Button) findViewById(R.id.refresh);
-        refresh.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-                        Bundle bundle = new Bundle();
-                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-
-                        ContentResolver.requestSync(CountrySyncAdapter.getSyncAccount(getApplicationContext()),
-                                getString(R.string.content_authority), bundle);
-                        Log.d(TAG, "Refresh click!");
-                    }
-                }
-        );
+//        Button refresh = (Button) findViewById(R.id.refresh);
+//        refresh.setOnClickListener(
+//                new View.OnClickListener(){
+//                    @Override
+//                    public void onClick(View v){
+//                        Bundle bundle = new Bundle();
+//                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+//                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+//
+//                        ContentResolver.requestSync(CountrySyncAdapter.getSyncAccount(getApplicationContext()),
+//                                getString(R.string.content_authority), bundle);
+//                        Log.d(TAG, "Refresh click!");
+//                    }
+//                }
+//        );
 
 
 

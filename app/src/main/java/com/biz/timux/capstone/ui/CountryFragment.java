@@ -19,10 +19,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 
 import com.biz.timux.capstone.R;
 import com.biz.timux.capstone.data.CountryContract;
+import com.biz.timux.capstone.sync.CountrySyncAdapter;
+import com.biz.timux.capstone.utils.Utility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -208,6 +211,7 @@ public class CountryFragment extends Fragment implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         mCountryDetailAdapter.swapCursor(data);
+        updateEmptyView();
         if (mPosition != RecyclerView.NO_POSITION){
             mRecyclerView.smoothScrollToPosition(mPosition);
         }
@@ -236,7 +240,7 @@ public class CountryFragment extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         String name = getArguments().getString(ARG_COUNTRY_NAME);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_country_detials);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_country_details);
 
         //mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
         // disable RecyclerView scrolling to enable scrollview inside it
@@ -248,7 +252,8 @@ public class CountryFragment extends Fragment implements
         });
         mRecyclerView.setNestedScrollingEnabled(true);
 
-        mCountryDetailAdapter = new CountryDetailAdapter(getActivity());
+        View emptyView = rootView.findViewById(R.id.recyclerview_empty);
+        mCountryDetailAdapter = new CountryDetailAdapter(getActivity(), emptyView);
 
         mRecyclerView.setAdapter(mCountryDetailAdapter);
 
@@ -313,5 +318,32 @@ public class CountryFragment extends Fragment implements
     public LatLng setLatLng (double lat, double lng){
 
         return new LatLng(lat, lng);
+    }
+
+    private void updateEmptyView() {
+        if ( mCountryDetailAdapter.getItemCount() == 0 ) {
+            TextView tv = (TextView) getView().findViewById(R.id.recyclerview_empty);
+            if ( null != tv ) {
+                // if cursor is empty, why? do we have an invalid location
+                int message = R.string.empty_country_list;
+                @CountrySyncAdapter.CountryInfoStatus int country = Utility.getCountryStatus(getActivity());
+                switch (country) {
+                    case CountrySyncAdapter.COUNTRY_STATUS_SERVER_DOWN:
+                        message = R.string.empty_country_list_server_down;
+                        break;
+                    case CountrySyncAdapter.COUNTRY_STATUS_SERVER_INVALID:
+                        message = R.string.empty_country_list_server_error;
+                        break;
+                    case CountrySyncAdapter.COUNTRY_STATUS_INVALID:
+                        message = R.string.empty_country_list_invalid;
+                        break;
+                    default:
+                        if (!Utility.isNetworkAvailable(getActivity())) {
+                            message = R.string.empty_country_list_no_network;
+                        }
+                }
+                tv.setText(message);
+            }
+        }
     }
 }

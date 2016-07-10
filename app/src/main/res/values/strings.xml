@@ -56,10 +56,19 @@
     <string name="us">US</string>
 
     <string name="format_temperature"><xliff:g id="temp">%.2f</xliff:g>\u00B0 C</string>
-    <string name="empty_country_list">No country info available</string>
+
     <string name="pref_country_label">Country Name</string>
     <string name="pref_country_key">countryName</string>
     <string name="pref_country_default">France</string>
     <string name="title_activity_settings">Add Favourite Country</string>
+
+    <string name="pref_country_info_status_key" translatable="false">country-status</string>
+
+    <string name="empty_country_list">No Country Information Available</string>
+    <string name="empty_country_list_no_network">No Country information available. The network is not available to fetch country data.</string>
+    <string name="empty_country_list_server_down">No Country information available. The server is not returning data.</string>
+    <string name="empty_country_list_server_error">No Country information available. The server is not returning valid data. Please check for an updated version of FunTrip.</string>
+    <string name="empty_country_list_invalid">No Country information available. The country in settings is not recognized by the server.</string>
+
 
 </resources>

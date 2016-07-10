@@ -9,12 +9,15 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.util.Log;
 
 import com.biz.timux.capstone.R;
@@ -30,6 +33,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
@@ -39,12 +44,18 @@ import java.util.Vector;
  */
 public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
-
+    private static final String TAG = CountrySyncAdapter.class.getSimpleName();
     public static final String ACTION_DATA_UPDATED = "com.biz.timux.capstone.ACTION_DATA_UPDATED";
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 600 = 10 hours
     public static final int SYNC_INTERVAL = 60 * 600;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({COUNTRY_STATUS_OK, COUNTRY_STATUS_SERVER_DOWN,  COUNTRY_STATUS_SERVER_INVALID,
+            COUNTRY_STATUS_UNKNOWN, COUNTRY_STATUS_INVALID})
+    public @interface CountryInfoStatus {}
 
     public static final int COUNTRY_STATUS_OK = 0;
     public static final int COUNTRY_STATUS_SERVER_DOWN = 1;
@@ -52,7 +63,7 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
     public static final int COUNTRY_STATUS_UNKNOWN = 3;
     public static final int COUNTRY_STATUS_INVALID = 4;
 
-    private static final String TAG = CountrySyncAdapter.class.getSimpleName();
+
 
     public CountrySyncAdapter(Context context, boolean autoInitialize){
         super(context, autoInitialize);
@@ -91,8 +102,8 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
             final String BASE_URL = "https://travelbriefing.org/";
             final String SUFFIX = "?format=json";
             //test
-            String country = "france";
-            //for (String country : Countries.COUNTRIES) {
+            //String country = "france";
+            for (String country : Countries.COUNTRIES) {
                 System.out.println(country);
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendPath(country)
@@ -121,22 +132,24 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
                 }
 
                 if (buffer.length() == 0) {
-                    //set network status
+                    setCountryInfoStatus(getContext(), COUNTRY_STATUS_SERVER_DOWN);
                     return;
                 }
 
                 countryJsonStr = buffer.toString();
                 getCountryDataFromJson(countryJsonStr);
                 //Log.d(TAG, countryJsonStr);
-            //}
+            }
 
         } catch (IOException e) {
             Log.e(TAG, "Error ", e);
             //set network status
+            setCountryInfoStatus(getContext(), COUNTRY_STATUS_SERVER_DOWN);
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage(), e);
             e.printStackTrace();
             //set network status
+            setCountryInfoStatus(getContext(), COUNTRY_STATUS_SERVER_INVALID);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -150,6 +163,13 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
             }
         }
         return;
+    }
+
+    static private void setCountryInfoStatus(Context context, int countryStatus) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(context.getString(R.string.pref_country_info_status_key), countryStatus);
+        editor.commit();
     }
 
     private void getCountryDataFromJson(String countryJsonStr) throws JSONException {
@@ -232,12 +252,17 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
                 switch (errorCode){
                     case HttpURLConnection.HTTP_OK:
+                        Log.d(TAG, "http connection is ok. ");
                         break;
                     case HttpURLConnection.HTTP_NOT_FOUND:
                         //set network status
+                        setCountryInfoStatus(getContext(), COUNTRY_STATUS_INVALID);
+                        Log.d(TAG, "http connection is broken, server not found. ");
                         break;
                     default:
                         //set network status
+                        setCountryInfoStatus(getContext(), COUNTRY_STATUS_SERVER_DOWN);
+                        Log.d(TAG, "http connection is broken, server down. ");
                         return;
                 }
             }
@@ -510,11 +535,13 @@ public class CountrySyncAdapter extends AbstractThreadedSyncAdapter{
 
             // both tables should be inserted
             Log.d(TAG, "Sync Complete for country. " + countryName);
+            setCountryInfoStatus(getContext(), COUNTRY_STATUS_OK);
             updateWidgets();
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage(), e);
             e.printStackTrace();
             //set network status
+            setCountryInfoStatus(getContext(), COUNTRY_STATUS_SERVER_INVALID);
         }
 
 

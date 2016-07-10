@@ -21,9 +21,11 @@ public class CountryDetailAdapter extends RecyclerView.Adapter<CountryDetailAdap
     private static final String TAG = CountryDetailAdapter.class.getSimpleName();
     private final Context mContext;
     private Cursor mCursor;
+    final private View mEmptyView;
 
-    public CountryDetailAdapter (Context context){
+    public CountryDetailAdapter (Context context, View emptyView){
         this.mContext = context;
+        mEmptyView = emptyView;
     }
 
 
@@ -210,6 +212,7 @@ public class CountryDetailAdapter extends RecyclerView.Adapter<CountryDetailAdap
     public void swapCursor(Cursor newCursor) {
         mCursor = newCursor;
         notifyDataSetChanged();
+        mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
     }
 
